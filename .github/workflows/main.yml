@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./Linguistic-Advocacy-Project
+        working-directory: ./project
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -31,7 +31,7 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: './Linguistic-Advocacy-Project/package-lock.json'
+          cache-dependency-path: './project/package-lock.json'
       - name: Install dependencies
         run: npm install
       - name: Build
@@ -41,7 +41,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './Linguistic-Advocacy-Project/dist'
+          path: './project/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
