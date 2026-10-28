@@ -1,10 +1,25 @@
+name: Deploy static content to Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    # This tells GitHub to run all commands inside your subfolder
     defaults:
       run:
         working-directory: ./Linguistic-Advocacy-Project
@@ -15,7 +30,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # We tell setup-node where to find the lock file for caching
           cache: 'npm'
           cache-dependency-path: './Linguistic-Advocacy-Project/package-lock.json'
       - name: Install dependencies
@@ -27,8 +41,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Point to the dist folder inside the subfolder
           path: './Linguistic-Advocacy-Project/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        
